@@ -12,14 +12,16 @@
   <meta name="author" content="Yannu Li">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/favicon/apple-touch-icon-144x144.png">
+  <link rel="preload" href="fonts/Helvetica-NeueLT55Roman-light.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/Canela-Light.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/favicon/apple-touch-icon-152x152.png">
   <link rel="icon" type="image/png" href="images/favicon/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="images/favicon/favicon-16x16.png" sizes="16x16">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="preload" href="styles/main.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="styles/main.css"></noscript>
  <!--  <link rel="stylesheet" type="text/css" href="http://fast.fonts.net/cssapi/67330240-65d1-4421-80e1-1ed4d5553a91.css"> -->
    <link href="//cloud.typenetwork.com/projects/3384/fontface.css/" rel="stylesheet" type="text/css">
   </head>
-    <link rel="stylesheet" type="text/css" href="http://yannuli.com/assets/Futura.ttc">
   <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111857537-1"></script>
 <script>
@@ -59,8 +61,8 @@
     <div class="landing-text">
 		<p class="landing-label">Hi there! </p>
       <h1 class="landing-tagline">I'm <a href="about/index.html" class="link--prominent landing-link--">Yann</a>u</h1>
-	        <p class="landing-label">A product designer who specializes in research and service.</p>
-    		<p class="landing-label">Scroll down to see my projects, or take my resume <a href="assets/Yannuli_resume_ProductDesigner.pdf" class="link--prominent landing-link--">here</a>.</p>
+	        <p class="landing-label">Product designer specializing in UX research and service design.</p>
+    		<p class="landing-label">Scroll down to see my projects, also my resume is <a href="assets/Yannuli_resume_ProductDesigner.pdf" class="link--prominent landing-link--">here</a>.</p>
     </div>
 	  </div>
   </div>
@@ -72,10 +74,10 @@
     }
   </style>
   <div class="row--top large-5 columns">
-      <h1>Work</h1>
+      <h1>Featured</h1>
     </div>
     <div class="row--top large-7 columns">
-      <p>Here are projects I've worked on in the industry. 3 of them launched in between 2018 - 2020.</p>
+      <p style="margin-top: 24px; margin-bottom: 0;">Projects I've worked on in the industry launched between 2019 - 2025.</p>
     </div>
   </div>
  <div class="row content--fadeIn">
@@ -83,22 +85,23 @@
       <div class="category-content clearfix">
       
 
-        <div class="project"><a href="design/EA-checkout/index.html"><img src="images/design/EA-checkout.png" class="project-thumbnail"></a>
-          <h3 class="project-name"><a href="design/EA-checkout/index.html">Checkout experience for EA</a></h3>
-          <label class="project-label">A desktop checkout flow designed for players in Asia-Pacific and Latin America regions</label>
-      </div>  
-
-      <div class="project"><a href="design/Associate-tasking/index.html"><img src="images/design/at-cover.png" class="project-thumbnail"></a>
-          <h3 class="project-name"><a href="design/Associate-tasking/index.html">Employee management for the Home Depot</a></h3>
-          <label class="project-label">An andriod app and tablet system refining the Home Depot associates' &amp supervisors' workflows</label>
+        <div class="project"><a href="design/EA-do/index.html"><img src="images/design/EA-do-0.png" class="project-thumbnail" loading="lazy"></a>
+          <h3 class="project-name"><a href="design/EA-do/index.html">EA App Testing Tool</a></h3>
+          <label class="project-label">A web app testing tool that overlays on top of EA app.</label>
       </div>
 
-      <div class="project"><a href="design/smartdevops/index.html"><img src="images/design/devops1.png" class="project-thumbnail"></a>
+        <div class="project"><a href="design/EA-mobile login/index.html"><img src="images/design/EA-ml-0.png" class="project-thumbnail"></a>
+          <h3 class="project-name"><a href="design/EA-mobile login/index.html">EA Mobile login</a></h3>
+          <label class="project-label">Enabled players to login to their EA accounts on EA mobile games</label>
+      </div>  
+
+
+      <div class="project"><a href="design/smartdevops/index.html"><img src="images/design/devops1.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="design/smartdevops/index.html">DevOps platform for Tencent</a></h3>
           <label class="project-label">A Cloud-based DevOps platform to boost 1000+ developers' efficiency.</label>
       </div>
 
-      <div class="project"><a href="design/yunnan1/index.html"><img src="images/design/yunnan1-1.png" class="project-thumbnail"></a>
+      <div class="project"><a href="design/yunnan1/index.html"><img src="images/design/yunnan1-1.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="design/yunnan1/index.html">Go-Yunnan Redesign</a></h3>
           <label class="project-label">An iOS mobile app, service and strategy for 2 million users.</label>
       </div>
@@ -118,25 +121,25 @@
     }
   </style>
   <div class="row--top large-5 columns">
-      <h1>School</h1>
+      <h1>Sides</h1>
     </div>
     <div class="row--top large-7 columns">
-      <p>Take a glance at the projects where I built up my expertise.</p>
+      <p style="margin-top: 24px; margin-bottom: 0;">Projects I enjoy working on in my spare time.</p>
     </div>
   </div>
  <div class="row content--fadeIn">
     <div class="large-12 columns">
       <div class="category-content clearfix">
-
-          <div class="project"><a href="design/housing/index.html"><img src="images/design/h-cover.png" class="project-thumbnail"></a>
-          <h3 class="project-name"><a href="design/housing/index.html">House ATL Data Collective</a></h3>
-          <label class="project-label">A web-based dashboard that boosts housing data management and analysis</label>
-      </div>
-
-      <div class="project"><a href="design/Google-2020/index.html"><img src="images/design/g-cover.png" class="project-thumbnail"></a>
+  <div class="project"><a href="design/Google-2020/index.html"><img src="images/design/g-cover.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="design/Google-2020/index.html"> Ment</a></h3>
           <label class="project-label">A mobile app to connect mentors and mentees</label>
       </div>
+
+      <div class="project"><a href="design/EA-checkout/index.html"><img src="images/design/EA-checkout.png" class="project-thumbnail" loading="lazy"></a>
+        <h3 class="project-name"><a href="design/EA-checkout/index.html">Checkout experience for EA</a></h3>
+        <label class="project-label">A desktop checkout flow designed for players in Asia-Pacific and Latin America regions</label>
+    </div>  
+    
     </div>
   </div>
   </div>
@@ -158,11 +161,11 @@
   <div class="row content--fadeIn">
     <div class="large-12 columns">
       <div class="category-content clearfix">
-            <div class="project"><a href="/design/Associate-tasking"><img src="images/design/at-cover.png" class="project-thumbnail"></a>
+            <div class="project"><a href="/design/Associate-tasking"><img src="images/design/at-cover.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="/design/Associate-tasking">Associate tasking</a></h3>
           <label class="project-label">A cross-platform system refining the Home Depot associates' and supervisors' workflow</label>
       </div>
-              <div class="project"><a href="/design/the-resurrected"><img src="images/design/vr.png" class="project-thumbnail"></a>
+              <div class="project"><a href="/design/the-resurrected"><img src="images/design/vr.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="/design/the-resurrected">The Resurrected</a></h3>
           <label class="project-label">A VR game experience designed for Oculus Rift to motivate interactors to dance.</label>
         </div>
@@ -187,13 +190,13 @@
     <div class="large-12 columns" style="margin-bottom: 0">
       <div class="category-content clearfix">
                      <div class="project"><a href="https://www.figma.com/file/aAThxeD86vXciqJRTmDLjyQG/BitsOfGood-web-redesign
-"><img src="images/design/bog.png" class="project-thumbnail"></a>
+"><img src="images/design/bog.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="https://www.figma.com/file/aAThxeD86vXciqJRTmDLjyQG/BitsOfGood-web-redesign
 ">Bits of Good Redesign</a></h3>
           <label class="project-label">Give a new look to a student organization</label>
         </div>
       
-        <div class="project"><a href="/design/Procrastino"><img src="images/design/p-0.png" class="project-thumbnail"></a>
+        <div class="project"><a href="/design/Procrastino"><img src="images/design/p-0.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="/design/Procrastino">Procrastino</a></h3>
           <label class="project-label">A 5-day personal peoject featuring a fun and simple solution that helps people defeat procrastination.</label>
       </div> -->
@@ -217,15 +220,15 @@
   <div class="row content--fadeIn">
     <div class="large-12 columns">
       <div class="category-content clearfix">
-          <div class="project stories"><a href="https://dribbble.com/lagadima" target="_blank"><img src="images/art/C4D-1.jpg" class="project-thumbnail"></a>
+          <div class="project stories"><a href="https://dribbble.com/lagadima" target="_blank"><img src="images/art/C4D-1.jpg" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="https://dribbble.com/lagadima" target="_blank">Graphic stories</a></h3>
           <label class="project-label">Design graphics to empower, advocate, and narrate.</label>
         </div>
-        <div class="project stories" style="margin-right: 3rem"><a href="art/photo/index.html" target="_blank"><img src="images/art/p-cover.png" class="project-thumbnail"></a>
+        <div class="project stories" style="margin-right: 3rem"><a href="art/photo/index.html" target="_blank"><img src="images/art/p-cover.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="art/photo/index.html" target="_blank">Photo stories</a></h3>
           <label class="project-label">Collect sparks in ten thousand forms of day-to-day life.</label>
         </div>
-        <div class="project stories" style="margin-right: 0"><a href="art/short-film/index.html" target="_blank"><img src="images/art/f-cover.png" class="project-thumbnail"></a>
+        <div class="project stories" style="margin-right: 0"><a href="art/short-film/index.html" target="_blank"><img src="images/art/f-cover.png" class="project-thumbnail" loading="lazy"></a>
           <h3 class="project-name"><a href="art/short-film/index.html" target="_blank">Kinetic stories</a></h3>
           <label class="project-label">Blur boundaries of dream/reality, gain/loss, laughter/tears.</label>
 		  </div>
@@ -246,7 +249,7 @@
             <a href="https://medium.com/@yannuli" target="_blank">Medium</a>
           </div>
           <div class="footer-copyright">
-            <p>2020 © Yannu Li 🍃</p>
+            <p>2026 © Yannu Li 💚 with help of Copilot</p>
           </div>
         </div>
       </div>
