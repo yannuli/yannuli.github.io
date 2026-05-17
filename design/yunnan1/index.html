@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Go-Yunnan Redesign — Yannu Li</title>
+
+  <style>
+    @font-face {
+      font-family: "Canela";
+      src: url("../../fonts/Canela-Light.ttf") format("truetype");
+      font-weight: 200 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Helvetica Neue";
+      src: url("../../fonts/Helvetica-NeueLT55Roman-light.woff2") format("woff2");
+      font-weight: 200 700; font-style: normal; font-display: swap;
+    }
+
+    :root {
+      --bg: #ffffff; --fg: #000000; --fg-muted: #555555; --border: #ececec;
+      --logo-grad-1: #e38956; --logo-grad-2: rgba(227, 95, 86, 0);
+      --header-pad-x: 8rem; --content-max: 52rem; --content-pad: 2rem;
+      --dur-fast: 0.25s; --dur-default: 0.45s;
+      --ease-default: cubic-bezier(0.02, 0.01, 0.47, 1);
+    }
+    [data-theme="dark"] {
+      --bg: #000000; --fg: #ffffff; --fg-muted: #c4c4c4; --border: #1c1c1c;
+      --logo-grad-1: #e3da56; --logo-grad-2: rgba(227, 138, 86, 0);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      transition: background var(--dur-default) var(--ease-default), color var(--dur-default) var(--ease-default);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .hp-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.75rem var(--header-pad-x); background: transparent;
+      transition: padding var(--dur-default) var(--ease-default);
+      border-bottom: 1px solid transparent; height: 120px;
+    }
+    .hp-header.is-scrolled { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+    .hp-logo { width: 50px; height: 47px; cursor: pointer; flex-shrink: 0; display: inline-block; }
+    .hp-logo svg { width: 100%; height: 100%; display: block; }
+    .hp-nav { display: flex; align-items: center; gap: 2rem; }
+    .hp-nav__link {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.25rem;
+      line-height: 1; color: var(--fg); letter-spacing: 0.01em;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-nav__link:hover { opacity: 0.7; }
+    .hp-theme {
+      background: none; border: none; width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--fg); cursor: pointer; padding: 0; border-radius: 50%;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-theme:hover { opacity: 0.7; }
+    .hp-theme svg { width: 20px; height: 20px; display: block; }
+
+    .cs-wrap {
+      max-width: var(--content-max); margin: 0 auto;
+      padding: 0 var(--content-pad); padding-top: 160px; padding-bottom: 8rem;
+    }
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-weight: 300; font-size: 0.9375rem; color: var(--fg-muted);
+      margin-bottom: 3.5rem; transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .cs-back:hover { opacity: 0.6; }
+    .cs-back svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .cs-title {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 3rem;
+      line-height: 1.1; color: var(--fg); margin: 0 0 3rem 0; max-width: 40rem;
+    }
+    .cs-hero-img { width: 100%; margin-bottom: 4rem; }
+    .cs-hero-img img { width: 100%; height: auto; display: block; }
+
+    .cs-h2 {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.75rem;
+      line-height: 1.2; color: var(--fg); margin: 4rem 0 1.5rem 0;
+    }
+    .cs-h2:first-child { margin-top: 0; }
+    .cs-h3 {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.375rem;
+      line-height: 1.3; color: var(--fg); margin: 2.5rem 0 0.75rem;
+    }
+
+    .cs-meta {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem;
+    }
+    .cs-meta__label {
+      font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--fg-muted); margin: 0 0 0.5rem 0;
+    }
+    .cs-meta__value { font-weight: 300; font-size: 1rem; line-height: 1.5; color: var(--fg); margin: 0; }
+
+    .cs-body { margin-bottom: 1rem; }
+    .cs-body p {
+      font-weight: 300; font-size: 1.0625rem; line-height: 1.65; color: var(--fg); margin: 0 0 1.25rem 0;
+    }
+    .cs-body p:last-child { margin-bottom: 0; }
+
+    .cs-image { width: 100%; margin: 2rem 0; }
+    .cs-image img { width: 100%; height: auto; display: block; }
+    .cs-caption { font-size: 0.875rem; color: var(--fg-muted); margin-top: 0.5rem; display: block; }
+
+    video.cs-video { width: 100%; display: block; margin: 2rem 0; }
+
+    .cs-contact { margin-top: 5rem; padding-top: 2.5rem; }
+    .cs-contact p { font-weight: 300; font-size: 1rem; color: var(--fg-muted); margin: 0; }
+    .cs-contact a {
+      color: var(--fg); border-bottom: 1px solid currentColor; padding-bottom: 1px;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .cs-contact a:hover { opacity: 0.6; }
+
+    .hp-footer {
+      max-width: var(--content-max); margin: 4rem auto 0; padding: 2rem var(--content-pad) 3rem;
+    }
+    .hp-footer__copy { font-weight: 300; font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
+
+    .reveal {
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.9s var(--ease-default), transform 0.9s var(--ease-default);
+    }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+    @media (max-width: 960px) {
+      :root { --header-pad-x: 3rem; }
+      .cs-title { font-size: 2.25rem; }
+      .cs-meta { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      :root { --header-pad-x: 1.25rem; --content-pad: 1.25rem; }
+      .hp-header { padding: 1rem var(--header-pad-x); height: auto; }
+      .hp-logo { width: 38px; height: 36px; }
+      .hp-nav { gap: 1rem; }
+      .cs-wrap { padding-top: 120px; }
+      .cs-title { font-size: 1.875rem; }
+      .cs-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var TZ_LAT = {
+        'Pacific/Honolulu':21,'Pacific/Auckland':-37,'America/Anchorage':61,'America/Los_Angeles':34,
+        'America/Denver':40,'America/Chicago':42,'America/New_York':41,'America/Toronto':44,
+        'America/Sao_Paulo':-23,'America/Argentina/Buenos_Aires':-34,'Atlantic/Reykjavik':64,
+        'Europe/London':52,'Europe/Paris':49,'Europe/Berlin':52,'Europe/Madrid':40,'Europe/Rome':42,
+        'Europe/Stockholm':59,'Europe/Moscow':56,'Europe/Istanbul':41,'Africa/Cairo':30,
+        'Africa/Johannesburg':-26,'Asia/Dubai':25,'Asia/Kolkata':23,'Asia/Bangkok':14,
+        'Asia/Singapore':1,'Asia/Shanghai':31,'Asia/Tokyo':36,'Asia/Seoul':37,
+        'Australia/Sydney':-34,'Australia/Melbourne':-38
+      };
+      var fallback = { America:40,Europe:50,Asia:35,Africa:5,Pacific:-20,Australia:-30,Atlantic:45,Indian:-10 };
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var lat = TZ_LAT[tz] !== undefined ? TZ_LAT[tz] : (fallback[tz.split('/')[0]] || 45);
+        var now = new Date();
+        var doy = Math.round((now - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1;
+        var r = Math.PI / 180;
+        var dec = -23.45 * Math.cos((doy + 10) * 360 / 365 * r);
+        var cosH = (Math.sin(-0.833 * r) - Math.sin(lat * r) * Math.sin(dec * r)) / (Math.cos(lat * r) * Math.cos(dec * r));
+        var theme = 'light';
+        if (cosH >= 1) { theme = 'dark'; } else if (cosH > -1) {
+          var H = Math.acos(cosH) / r;
+          var h = now.getHours() + now.getMinutes() / 60;
+          if (h < 12 - H / 15 || h >= 12 + H / 15) theme = 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="hp-header" id="hp-header">
+    <a href="../../index.html" aria-label="Yannu — home">
+      <span class="hp-logo">
+        <svg viewBox="0 0 50 47" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hp-logo-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--logo-grad-1)" />
+              <stop offset="100%" stop-color="var(--logo-grad-2)" />
+            </linearGradient>
+          </defs>
+          <path d="M 15.5 0 C 20.056 0 24.153 1.966 26.989 5.096 C 27.651 5.033 28.322 5 29 5 C 40.598 5 50 14.402 50 26 C 50 37.598 40.598 47 29 47 C 18.489 47 9.781 39.278 8.241 29.197 C 3.339 26.594 0 21.437 0 15.5 C 0 6.94 6.94 0 15.5 0 Z" fill="url(#hp-logo-grad)" />
+        </svg>
+      </span>
+    </a>
+    <nav class="hp-nav">
+      <a class="hp-nav__link" href="../../index.html#about">About</a>
+      <button class="hp-theme" id="theme-btn" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+          <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="cs-wrap">
+
+    <a class="cs-back reveal" href="../../index.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M10 3 L5 8 L10 13" />
+      </svg>
+      All work
+    </a>
+
+    <h1 class="cs-title reveal reveal-d1">Go-Yunnan Redesign</h1>
+
+    <div class="cs-hero-img reveal reveal-d2">
+      <img src="../../assets/yunnan1-1.png" alt="Go-Yunnan app redesign" />
+    </div>
+
+    <div class="cs-meta reveal">
+      <div>
+        <p class="cs-meta__label">Role</p>
+        <p class="cs-meta__value">UX / UI Designer</p>
+      </div>
+      <div>
+        <p class="cs-meta__label">Duration</p>
+        <p class="cs-meta__value">Sept 2019 – Dec 2019</p>
+      </div>
+      <div>
+        <p class="cs-meta__label">Tools</p>
+        <p class="cs-meta__value">Pen &amp; Paper, Whiteboard, Sketch</p>
+      </div>
+    </div>
+
+    <h2 class="cs-h2 reveal">Overview</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>Yunnan is a province whose economy feeds on tourism, so improving tourists' experiences is a constant endeavor. Yunnan tourism office recruited a team to create the mobile app Go-Yunnan — but the app didn't achieve good stats. Tencent was commissioned to redesign it. Over 4 months, I worked with my mentor, 1 other interaction designer, 2 visual designers, PMs, and engineers from the client's side to ship the redesigned experience. As the project progressed, we pushed the scope further to achieve more user and business value at a strategic level.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-1-2.png" alt="Go-Yunnan overview" />
+    </div>
+
+    <h2 class="cs-h2 reveal">My contribution</h2>
+    <div class="cs-image reveal reveal-d1">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-1-5.png" alt="My contribution areas" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Results</h2>
+    <div class="cs-image reveal reveal-d1">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-1-4.png" alt="Project results" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Understanding Go-Yunnan</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>We first spent time to understand what Go-Yunnan had to offer by talking with the client and PMs. We synthesized our findings with a SWOT analysis.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-2.png" alt="SWOT analysis" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-3.png" alt="App analysis findings" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Identifying problems from users and data</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>We sent out a survey to internal users and got 85 responses. We arranged an 8-person focus group to dig deeper. I also asked developers for event tracking data from one month of Go-Yunnan usage to find where users were dropping off.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-4.png" alt="User research and data findings" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Understanding tourists with researchers</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>I found that researchers on my team had done a project investigating tourists, so I asked my mentor to set up a workshop to leverage existing research insights. From the researcher, we learned common pain points across 6 personas and a shared mental model.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-6.png" alt="Tourist research insights" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Exploring information architecture</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>I printed out all the key interfaces in the Go-Yunnan app and invited designers and PMs to group them into common themes together. We regrouped sections and revamped the original information architecture.</p>
+      <p>After several rounds of feedback sessions with clients, we reached agreement on a new structure combining hierarchy and flat navigation. We focused on the home screen redesign for this iteration.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-5.png" alt="Card sorting and IA exploration" />
+    </div>
+    <video class="cs-video reveal" autoplay loop muted playsinline>
+      <source src="../../../Desktop/old-website/assets/yunnan1-7.mov" type="video/mp4">
+    </video>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-8.png" alt="New information architecture" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Home screen redesign</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>Every online tourism platform has a home screen, so I did a competitive analysis to see how other products approach theirs. I mapped these home screens to a 2×2 matrix and discussed with the team to set our goal. My mentor and I finalized home screen design decisions after several whiteboarding sessions.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-9.png" alt="Competitive analysis 2x2 matrix" />
+    </div>
+    <div class="cs-body reveal">
+      <p>Proposing our decisions to managers and clients was easier than expected. Our clients made several further requests but agreed with the direction. We created a hi-fi prototype and started polishing the experience on that base.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-10.png" alt="Home screen hi-fi designs" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-11.png" alt="Home screen final designs" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Pushing it further — service design</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>When I requested log analysis from developers to showcase our impact, I found that although overall stats improved, CTR through each module was still low compared to offline salespoints. I recalled the journey map from early phases and found that physical touchpoints carried significant weight — and there were holes in the current holistic experience.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-14.png" alt="Service blueprint" />
+      <span class="cs-caption">Service blueprint</span>
+    </div>
+    <div class="cs-body reveal">
+      <p>I initiated a conversation with my mentor about a strategic service design plan taking a holistic approach to tourism in Yunnan — and found my mentor was thinking about the same thing. We worked together on a high-level strategic plan and proposed it to our manager, then to our client.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/yunnan1-15.png" alt="High-level product strategy" />
+      <span class="cs-caption">High-level product strategies</span>
+    </div>
+
+    <h2 class="cs-h2 reveal">Learning outcomes</h2>
+
+    <h3 class="cs-h3 reveal">Design? Strategy? Consultancy?</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>Where does the value of design lie when everyone is talking about user-centered? I realized the best way to ship a design has shifted from learning domain knowledge and designing ourselves, to evangelizing design thinking and methods to domain experts and co-creating with them.</p>
+    </div>
+
+    <h3 class="cs-h3 reveal">Lines between roles</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>I expected clear divisions of responsibility, but was surprised by the blurry line between PMs, researchers, and designers. My mentor's idea inspired me: do whatever you're not banned from doing. That encouraged me to think thoroughly about the product at every stage rather than solely focusing on my part.</p>
+    </div>
+
+    <h3 class="cs-h3 reveal">The bigger picture</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>I initially limited my vision to individual features. As the project proceeded, I realized that always having business value and strategy in mind is key to creating an implementable product with the greatest possible user value.</p>
+    </div>
+
+    <div class="cs-contact reveal">
+      <p>Want to go deeper? Email <a href="mailto:yannuli.design@gmail.com">yannuli.design@gmail.com</a> for a full project walkthrough.</p>
+    </div>
+
+  </main>
+
+  <footer class="hp-footer">
+    <p class="hp-footer__copy">2026 &copy; Yannu Li 💚 with Claude</p>
+  </footer>
+
+  <script>
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-btn');
+    const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/><line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/></svg>`;
+    const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square"><path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z"/></svg>`;
+    if (html.getAttribute('data-theme') === 'dark') { themeBtn.innerHTML = sunIcon; themeBtn.setAttribute('aria-label', 'Switch to light mode'); }
+    themeBtn.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+      themeBtn.innerHTML = isDark ? moonIcon : sunIcon;
+    });
+    const header = document.getElementById('hp-header');
+    window.addEventListener('scroll', () => { header.classList.toggle('is-scrolled', window.scrollY > 60); }, { passive: true });
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => obs.observe(el));
+    } else { revealEls.forEach(el => el.classList.add('is-in')); }
+  </script>
+</body>
+</html>

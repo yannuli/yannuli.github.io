@@ -1,0 +1,530 @@
+/* ============================================================
+   Homepage — Yannu Li portfolio
+   Recreates Pages/Pages/Homepage-light + Homepage-dark exactly
+   ============================================================ */
+
+/* --- Fonts: Canela + Helvetica Neue (Yannu DS) --- */
+
+@font-face {
+  font-family: "Canela";
+  src: url("../fonts/Canela-Light.ttf") format("truetype");
+  font-weight: 200 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("../fonts/Helvetica-NeueLT55Roman-light.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Tokens: light defaults, dark overrides -------- */
+:root {
+  --bg: #ffffff;
+  --fg: #000000;
+  --fg-muted: #555555;
+  --border: #ececec;
+  --logo-grad-1: #e38956;
+  --logo-grad-2: rgba(227, 95, 86, 0);
+  --sun-grad-1: rgba(227, 137, 86, 0.5);
+  --sun-grad-2: rgba(227, 95, 86, 0);
+  --hill-back-grad-1: #abe6ef;
+  --hill-back-grad-2: #ffffff;
+  --hill-front-grad-1: #3895ab;
+  --hill-front-grad-2: #ffffff;
+  --placeholder-fill: #c4c4c4;
+
+  --content-pad: 12.25rem;       /* 196px */
+  --content-pad-md: 3rem;
+  --content-pad-sm: 1.25rem;
+  --header-pad-x: 8rem;          /* 128px */
+  --col-gap: 1.0625rem;          /* 17px between project columns ~ figma */
+
+  --dur-fast: 0.25s;
+  --dur-default: 0.45s;
+  --ease-default: cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+[data-theme="dark"] {
+  --bg: #000000;
+  --fg: #ffffff;
+  --fg-muted: #c4c4c4;
+  --border: #1c1c1c;
+  --logo-grad-1: #e3da56;
+  --logo-grad-2: rgba(227, 138, 86, 0);
+  --sun-grad-1: rgba(227, 218, 86, 0.5);
+  --sun-grad-2: rgba(227, 138, 86, 0);
+  --hill-back-grad-1: rgba(227, 218, 86, 0.5);  /* yellow tint instead of mist */
+  --hill-back-grad-2: #000000;
+  --hill-front-grad-1: #3895ab;
+  --hill-front-grad-2: #000000;
+  --placeholder-fill: #2a2a2a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background var(--dur-default) var(--ease-default), color var(--dur-default) var(--ease-default);
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.hp-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.75rem var(--header-pad-x);
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: padding var(--dur-default) var(--ease-default),
+              border-color var(--dur-default) var(--ease-default);
+  border-bottom: 1px solid transparent;
+}
+.hp-header.is-scrolled {
+  border-bottom-color: transparent;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.hp-logo {
+  width: 50px;
+  height: 47px;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.hp-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hp-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.hp-nav__link {
+  font-family: "Canela", "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-size: 1.25rem;       /* 20px */
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: 0.01em;
+  transition: opacity var(--dur-fast) var(--ease-default);
+}
+.hp-nav__link:hover { opacity: 0.7; }
+
+.hp-theme {
+  background: none;
+  border: 1px solid var(--border);
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: border-color var(--dur-fast) var(--ease-default),
+              color var(--dur-fast) var(--ease-default);
+}
+.hp-theme:hover {
+  border-color: var(--fg);
+}
+.hp-theme svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* ============================================================
+   HERO / LANDING SECTION
+   ============================================================ */
+
+.hp-hero {
+  position: relative;
+  width: 100%;
+  height: 534px;          /* header(175) + hero(359) */
+  padding-top: 175px;
+  overflow: hidden;
+}
+
+.hp-hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.3125rem var(--content-pad) 0;  /* top 21px */
+}
+
+.hp-hero__title {
+  font-family: "Canela", "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-size: 3rem;          /* 48px */
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--fg);
+  margin: 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  margin-right: 8.0625rem;  /* ~129px between title and bio (381 - 252) */
+}
+
+.hp-hero__bio {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;        /* 24px */
+  line-height: 2rem;        /* 32px */
+  color: var(--fg);
+  margin: 0;
+  max-width: 43.25rem;      /* ~692px */
+  white-space: pre-line;
+}
+
+/* Hero illustration layers */
+.hp-hero__scene {
+  position: absolute;
+  inset: 175px 0 0 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hp-hero__hill-back {
+  position: absolute;
+  left: 12px;
+  top: 60px;                /* 38 + 22 */
+  width: calc(100% - 24px);
+  height: 286px;
+  overflow: visible;
+  will-change: transform;
+  transform: translateY(var(--parallax-y, 0px));
+}
+.hp-hero__hill-back svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.hp-hero__hill-back path {
+  fill: url(#hill-back-grad);
+}
+
+.hp-hero__sun {
+  position: absolute;
+  /* Figma: sun mask at left 648, top 104 within 1440x359 scene; 203x188 disk */
+  top: 104px;
+  left: 45%;             /* 648 / 1440 ≈ 45% */
+  width: 203px;
+  height: 188px;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateY(var(--parallax-y, 0px));
+}
+.hp-hero__sun-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--sun-grad-1) 0%, var(--sun-grad-2) 100%);
+}
+
+/* ====== Dark-theme hero scene — swap to uploaded SVGs ====== */
+/* In dark, each layer fills the whole hero scene (1440x360 SVG canvas) */
+[data-theme="dark"] .hp-hero__hill-back,
+[data-theme="dark"] .hp-hero__sun,
+[data-theme="dark"] .hp-hero__hill-front {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+[data-theme="dark"] .hp-hero__hill-back {
+  background-image: url("../assets/hill-back-dark.svg");
+}
+[data-theme="dark"] .hp-hero__sun {
+  background-image: url("../assets/sun-dark.svg");
+  transform: translateY(var(--parallax-y, 0px));   /* no horizontal centering — svg is already positioned within its 1440 canvas */
+}
+[data-theme="dark"] .hp-hero__hill-front {
+  background-image: url("../assets/hill-front-dark.svg");
+}
+/* Hide the inline SVG / glow layers used by light mode */
+[data-theme="dark"] .hp-hero__hill-back > svg,
+[data-theme="dark"] .hp-hero__hill-front > svg,
+[data-theme="dark"] .hp-hero__sun-glow {
+  display: none;
+}
+.hp-hero__sun-glow {
+  /* Light-mode gradient disk — declared above; keep as flat fallback when not parallaxed */
+}
+
+.hp-hero__hill-front {
+  position: absolute;
+  left: 0;
+  top: 173px;
+  width: 100%;
+  height: 186px;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateY(var(--parallax-y, 0px));
+}
+.hp-hero__hill-front svg {
+  width: 100%;
+  height: 100px;
+  display: block;
+}
+.hp-hero__hill-front path {
+  fill: url(#hill-front-grad);
+}
+
+/* ============================================================
+   CONTENT SECTIONS
+   ============================================================ */
+
+.hp-section {
+  padding: 0 var(--content-pad);
+  margin-top: 4rem;
+}
+
+.hp-section--featured { margin-top: 4rem; }     /* 598 - 534 = 64px */
+.hp-section--side    { margin-top: 7.0625rem; }  /* 1727 - 1638 = ~89 */
+.hp-section--hobby   { margin-top: 7.0625rem; }
+
+.hp-h2 {
+  font-family: "Canela", "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-size: 2.25rem;       /* 36px */
+  line-height: 1;
+  color: var(--fg);
+  margin: 0 0 2.875rem 0;   /* 46px (~ gap to first row) */
+  letter-spacing: 0;
+}
+
+.hp-h2--lg {
+  font-size: 3rem;          /* 48px (When I'm not making products...) */
+  margin-bottom: 3.625rem;  /* ~58px */
+}
+
+/* Project grid (2 columns) */
+.hp-projects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--col-gap);
+  row-gap: 5.5rem;          /* gap between project rows */
+}
+
+.hp-project {
+  display: flex;
+  flex-direction: column;
+}
+
+.hp-project__thumb {
+  width: 100%;
+  aspect-ratio: 513 / 352;
+  background: var(--placeholder-fill);
+  overflow: hidden;
+  position: relative;
+  transition: opacity var(--dur-fast) var(--ease-default);
+}
+.hp-project__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.hp-project:hover .hp-project__thumb { opacity: 0.85; }
+
+.hp-project__meta {
+  margin-top: 1.8125rem;    /* 29px */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;           /* 7px */
+}
+
+.hp-project__title {
+  font-family: "Canela", "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-size: 1.5rem;        /* 24px */
+  line-height: 1;
+  color: var(--fg);
+  margin: 0;
+  letter-spacing: 0;
+}
+
+.hp-project__title--canela {
+  font-family: "Canela", "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+}
+
+.hp-project__desc {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 1.125rem;      /* 18px */
+  line-height: 1.4;
+  color: var(--fg);
+  margin: 0;
+  max-width: 32.125rem;     /* 514px */
+}
+
+/* Hobby tiles */
+.hp-hobbies {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 0;
+}
+
+.hp-hobby {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hp-hobby__thumb {
+  aspect-ratio: 1 / 1;
+  background: var(--placeholder-fill);
+  overflow: hidden;
+}
+.hp-hobby__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hp-hobby__label {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  font-size: 1.125rem;      /* 18px */
+  line-height: 1;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* Footer breathing room */
+.hp-footer-spacer {
+  height: 8rem;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition: opacity 0.9s var(--ease-default), transform 0.9s var(--ease-default);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 0.08s; }
+.reveal-d2 { transition-delay: 0.16s; }
+.reveal-d3 { transition-delay: 0.24s; }
+.reveal-d4 { transition-delay: 0.32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1280px) {
+  :root {
+    --content-pad: 6rem;
+    --header-pad-x: 4rem;
+  }
+  .hp-hero__title { margin-right: 4rem; }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --content-pad: var(--content-pad-md);
+    --header-pad-x: 3rem;
+  }
+  .hp-hero {
+    height: auto;
+    padding-top: 140px;
+    padding-bottom: 6rem;
+  }
+  .hp-hero__content {
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+  .hp-hero__title { white-space: normal; margin-right: 0; font-size: 2.5rem; }
+  .hp-hero__bio { font-size: 1.125rem; line-height: 1.6; }
+  .hp-hero__scene { inset: 140px 0 0 0; height: 340px; }
+  .hp-hero__sun { width: 160px; height: 160px; top: 200px; }
+  .hp-hero__hill-back { top: 220px; height: 200px; }
+  .hp-hero__hill-front { top: 320px; height: 120px; }
+
+  .hp-projects { grid-template-columns: 1fr; row-gap: 4rem; }
+  .hp-hobbies { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .hp-h2 { font-size: 1.875rem; margin-bottom: 2rem; }
+  .hp-h2--lg { font-size: 2.25rem; }
+  .hp-section { margin-top: 5rem; }
+  .hp-section--featured { margin-top: 3rem; }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --content-pad: var(--content-pad-sm);
+    --header-pad-x: 1.25rem;
+  }
+  .hp-header { padding: 1rem var(--header-pad-x); }
+  .hp-logo { width: 38px; height: 36px; }
+  .hp-nav { gap: 1rem; }
+  .hp-nav__link { font-size: 1.125rem; }
+  .hp-theme { width: 34px; height: 34px; }
+
+  .hp-hero { padding-top: 110px; padding-bottom: 4rem; }
+  .hp-hero__title { font-size: 2.125rem; }
+  .hp-hero__bio { font-size: 1rem; line-height: 1.55; }
+  .hp-hero__scene { inset: 110px 0 0 0; height: 260px; }
+  .hp-hero__sun { width: 120px; height: 120px; top: 130px; }
+  .hp-hero__hill-back { top: 150px; height: 150px; left: 0; width: 100%; }
+  .hp-hero__hill-front { top: 230px; height: 80px; }
+
+  .hp-h2 { font-size: 1.625rem; margin-bottom: 1.5rem; }
+  .hp-h2--lg { font-size: 1.875rem; }
+  .hp-section { margin-top: 3.5rem; }
+  .hp-hobbies { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .hp-hobby__label { font-size: 1rem; }
+  .hp-footer-spacer { height: 4rem; }
+}

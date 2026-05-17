@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yannu Li — Product designer</title>
+
+  <style>
+    /* --- Fonts: Canela + Helvetica Neue --- */
+    @font-face {
+      font-family: "Canela";
+      src: url("fonts/Canela-Light.ttf") format("truetype");
+      font-weight: 200 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: "Helvetica Neue";
+      src: url("fonts/Helvetica-NeueLT55Roman-light.woff2") format("woff2");
+      font-weight: 200 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* --- Tokens --- */
+    :root {
+      --bg: #ffffff;
+      --fg: #000000;
+      --fg-muted: #555555;
+      --border: #ececec;
+      --logo-grad-1: #e38956;
+      --logo-grad-2: rgba(227, 95, 86, 0);
+      --sun-grad-1: rgba(227, 137, 86, 0.5);
+      --sun-grad-2: rgba(227, 95, 86, 0);
+      --hill-back-grad-1: #abe6ef;
+      --hill-back-grad-2: #ffffff;
+      --hill-front-grad-1: #3895ab;
+      --hill-front-grad-2: #ffffff;
+      --placeholder-fill: #c4c4c4;
+
+      --content-max: 52rem;
+      --content-pad: 12.25rem;
+      --content-pad-md: 3rem;
+      --content-pad-sm: 1.25rem;
+      --header-pad-x: 8rem;
+      --col-gap: 1.0625rem;
+
+      --dur-fast: 0.25s;
+      --dur-default: 0.45s;
+      --ease-default: cubic-bezier(0.02, 0.01, 0.47, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #000000;
+      --fg: #ffffff;
+      --fg-muted: #c4c4c4;
+      --border: #1c1c1c;
+      --logo-grad-1: #e3da56;
+      --logo-grad-2: rgba(227, 138, 86, 0);
+      --sun-grad-1: rgba(227, 218, 86, 0.5);
+      --sun-grad-2: rgba(227, 138, 86, 0);
+      --hill-back-grad-1: rgba(227, 218, 86, 0.5);
+      --hill-back-grad-2: #000000;
+      --hill-front-grad-1: #3895ab;
+      --hill-front-grad-2: #000000;
+      --placeholder-fill: #2a2a2a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background var(--dur-default) var(--ease-default),
+                  color var(--dur-default) var(--ease-default);
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* === HEADER === */
+    .hp-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.75rem var(--header-pad-x);
+      background: transparent;
+      transition: padding var(--dur-default) var(--ease-default);
+      border-bottom: 1px solid transparent;
+      height: 120px;
+    }
+    .hp-header.is-scrolled {
+      padding-top: 1.25rem;
+      padding-bottom: 1.25rem;
+    }
+
+    .hp-logo {
+      width: 50px; height: 47px;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+    .hp-logo svg { width: 100%; height: 100%; display: block; }
+
+    .hp-nav {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hp-nav__link {
+      font-family: "Canela", Georgia, serif;
+      font-weight: 300;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: var(--fg);
+      letter-spacing: 0.01em;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-nav__link:hover { opacity: 0.7; }
+
+    .hp-theme {
+      background: none;
+      border: none;
+      width: 38px; height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg);
+      cursor: pointer;
+      padding: 0;
+      border-radius: 50%;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-theme:hover { opacity: 0.7; }
+    .hp-theme svg { width: 20px; height: 20px; display: block; }
+
+    /* === HERO === */
+    .hp-hero {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      padding-top: 175px;
+      overflow: hidden;
+    }
+
+    .hp-hero__content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 1.3125rem var(--content-pad) 0;
+    }
+
+    .hp-hero__title {
+      font-family: "Canela", Georgia, serif;
+      font-weight: 300;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--fg);
+      margin: 0;
+      flex: 0 0 auto;
+      white-space: nowrap;
+      margin-right: 8.0625rem;
+    }
+
+    .hp-hero__bio {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      color: var(--fg);
+      margin: 0;
+      max-width: 43.25rem;
+      white-space: pre-line;
+    }
+
+    .hp-hero__scene {
+      position: absolute;
+      inset: 175px 0 0 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hp-hero__hill-back {
+      position: absolute;
+      left: 12px; top: 60px;
+      width: calc(100% - 24px);
+      height: 286px;
+      overflow: visible;
+      will-change: transform;
+      transform: translateX(var(--parallax-x, 0px));
+    }
+    .hp-hero__hill-back svg { width: 100%; height: 100%; display: block; }
+    .hp-hero__hill-back path { fill: url(#hill-back-grad); }
+
+    .hp-hero__sun {
+      position: absolute;
+      top: 104px;
+      left: 45%;
+      width: 203px; height: 188px;
+      overflow: hidden;
+      will-change: transform;
+      transform: translateX(var(--parallax-x, 0px));
+    }
+    .hp-hero__sun-glow {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--sun-grad-1) 0%, var(--sun-grad-2) 100%);
+    }
+
+    [data-theme="light"] .hp-hero__hill-back,
+    [data-theme="light"] .hp-hero__sun,
+    [data-theme="light"] .hp-hero__hill-front {
+      position: absolute;
+      inset: 0; left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+    [data-theme="light"] .hp-hero__hill-back { background-image: url("assets/hill%20back-light.svg"); }
+    [data-theme="light"] .hp-hero__sun { background-image: url("assets/sun-light.svg"); transform: translateX(var(--parallax-x, 0px)); }
+    [data-theme="light"] .hp-hero__hill-front { background-image: url("assets/hill%20front-light.svg"); }
+    [data-theme="light"] .hp-hero__hill-back > svg,
+    [data-theme="light"] .hp-hero__hill-front > svg,
+    [data-theme="light"] .hp-hero__sun-glow { display: none; }
+
+    [data-theme="dark"] .hp-hero__hill-back,
+    [data-theme="dark"] .hp-hero__sun,
+    [data-theme="dark"] .hp-hero__hill-front {
+      position: absolute;
+      inset: 0; left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+    [data-theme="dark"] .hp-hero__hill-back { background-image: url("assets/hill-back-dark.svg"); }
+    [data-theme="dark"] .hp-hero__sun { background-image: url("assets/sun-dark.svg"); transform: translateX(var(--parallax-x, 0px)); }
+    [data-theme="dark"] .hp-hero__hill-front { background-image: url("assets/hill-front-dark.svg"); }
+    [data-theme="dark"] .hp-hero__hill-back > svg,
+    [data-theme="dark"] .hp-hero__hill-front > svg,
+    [data-theme="dark"] .hp-hero__sun-glow { display: none; }
+
+    .hp-hero__hill-front {
+      position: absolute;
+      left: 0; top: 173px;
+      width: 100%; height: 186px;
+      overflow: hidden;
+      will-change: transform;
+      transform: translateX(var(--parallax-x, 0px));
+    }
+    .hp-hero__hill-front svg { width: 100%; height: 100px; display: block; }
+    .hp-hero__hill-front path { fill: url(#hill-front-grad); }
+
+    /* === CONTENT === */
+    .hp-section {
+      max-width: var(--content-max);
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 2rem;
+      margin-top: 4rem;
+    }
+    .hp-section--featured { margin-top: 4rem; }
+    .hp-section--side    { margin-top: 7.0625rem; }
+    .hp-section--hobby   { margin-top: 7.0625rem; }
+
+    .hp-h2 {
+      font-family: "Canela", Georgia, serif;
+      font-weight: 300;
+      font-size: 2.25rem;
+      line-height: 1;
+      color: var(--fg);
+      margin: 0 0 2.875rem 0;
+    }
+    .hp-h2--lg { font-size: 3rem; margin-bottom: 3.625rem; }
+
+    .hp-projects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--col-gap);
+      row-gap: 5.5rem;
+    }
+
+    .hp-project { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+
+    .hp-project__thumb {
+      width: 100%;
+      aspect-ratio: 513 / 352;
+      background: var(--placeholder-fill);
+      overflow: hidden;
+      position: relative;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-project__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hp-project:hover .hp-project__thumb { opacity: 0.85; }
+
+    .hp-project__meta {
+      margin-top: 1.8125rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4375rem;
+    }
+
+    .hp-project__title {
+      font-family: "Canela", Georgia, serif;
+      font-weight: 300;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--fg);
+      margin: 0;
+    }
+
+    .hp-project__desc {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 1.125rem;
+      line-height: 1.4;
+      color: var(--fg);
+      margin: 0;
+      max-width: 32.125rem;
+    }
+
+    .hp-hobbies {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .hp-hobby { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .hp-hobby__thumb {
+      aspect-ratio: 1 / 1;
+      background: var(--placeholder-fill);
+      overflow: hidden;
+    }
+    .hp-hobby__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .hp-hobby__label {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 1.125rem;
+      line-height: 1;
+      color: var(--fg);
+      margin: 0;
+    }
+
+    /* === FOOTER === */
+    .hp-footer {
+      max-width: var(--content-max);
+      margin: 6rem auto 0;
+      padding: 3rem 2rem;
+    }
+    .hp-footer__copy {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+      margin: 0;
+    }
+
+    /* === SCROLL REVEAL === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(2rem);
+      transition: opacity 0.9s var(--ease-default), transform 0.9s var(--ease-default);
+    }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    .reveal-d3 { transition-delay: 0.24s; }
+    .reveal-d4 { transition-delay: 0.32s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 1280px) {
+      :root { --content-pad: 6rem; --header-pad-x: 4rem; }
+      .hp-hero__title { margin-right: 4rem; }
+    }
+    @media (max-width: 960px) {
+      :root { --content-pad: var(--content-pad-md); --header-pad-x: 3rem; }
+      .hp-hero { height: auto; padding-top: 140px; padding-bottom: 6rem; }
+      .hp-hero__content { flex-direction: column; gap: 1rem; padding-top: 1rem; }
+      .hp-hero__title { white-space: normal; margin-right: 0; font-size: 2.5rem; }
+      .hp-hero__bio { font-size: 1.125rem; line-height: 1.6; }
+      .hp-hero__scene { inset: 140px 0 0 0; height: 340px; }
+      .hp-hero__sun { width: 160px; height: 160px; top: 200px; }
+      .hp-hero__hill-back { top: 220px; height: 200px; }
+      .hp-hero__hill-front { top: 320px; height: 120px; }
+      .hp-projects { grid-template-columns: 1fr; row-gap: 4rem; }
+      .hp-hobbies { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .hp-h2 { font-size: 1.875rem; margin-bottom: 2rem; }
+      .hp-h2--lg { font-size: 2.25rem; }
+      .hp-section { margin-top: 5rem; }
+      .hp-section--featured { margin-top: 3rem; }
+    }
+    @media (max-width: 600px) {
+      :root { --content-pad: var(--content-pad-sm); --header-pad-x: 1.25rem; }
+      .hp-header { padding: 1rem var(--header-pad-x); height: auto; }
+      .hp-logo { width: 38px; height: 36px; }
+      .hp-nav { gap: 1rem; }
+      .hp-nav__link { font-size: 1.125rem; }
+      .hp-hero { padding-top: 110px; padding-bottom: 4rem; }
+      .hp-hero__title { font-size: 2.125rem; }
+      .hp-hero__bio { font-size: 1rem; line-height: 1.55; }
+      .hp-hero__scene { inset: 110px 0 0 0; height: 260px; }
+      .hp-hero__sun { width: 120px; height: 120px; top: 130px; }
+      .hp-hero__hill-back { top: 150px; height: 150px; left: 0; width: 100%; }
+      .hp-hero__hill-front { top: 230px; height: 80px; }
+      .hp-h2 { font-size: 1.625rem; margin-bottom: 1.5rem; }
+      .hp-h2--lg { font-size: 1.875rem; }
+      .hp-section { margin-top: 3.5rem; }
+      .hp-hobbies { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .hp-hobby__label { font-size: 1rem; }
+      .hp-footer-spacer { height: 4rem; }
+    }
+  </style>
+
+  <!-- Auto-detect theme from local time + solar position before first paint -->
+  <script>
+    (function () {
+      var TZ_LAT = {
+        'Pacific/Honolulu':21,'Pacific/Tahiti':-18,'Pacific/Auckland':-37,'Pacific/Fiji':-18,'Pacific/Guam':14,
+        'America/Anchorage':61,'America/Los_Angeles':34,'America/Vancouver':49,'America/Denver':40,
+        'America/Phoenix':33,'America/Chicago':42,'America/Mexico_City':19,'America/New_York':41,
+        'America/Toronto':44,'America/Halifax':45,'America/Caracas':11,'America/Bogota':5,
+        'America/Lima':-12,'America/Sao_Paulo':-23,'America/Santiago':-33,
+        'America/Argentina/Buenos_Aires':-34,'America/Montevideo':-35,
+        'Atlantic/Reykjavik':64,'Atlantic/Azores':38,'Europe/London':52,'Europe/Dublin':53,
+        'Europe/Lisbon':38,'Europe/Madrid':40,'Europe/Paris':49,'Europe/Amsterdam':52,
+        'Europe/Berlin':52,'Europe/Rome':42,'Europe/Athens':38,'Europe/Warsaw':52,
+        'Europe/Stockholm':59,'Europe/Oslo':60,'Europe/Helsinki':60,'Europe/Tallinn':59,
+        'Europe/Moscow':56,'Europe/Kiev':50,'Europe/Bucharest':44,'Europe/Istanbul':41,
+        'Africa/Cairo':30,'Africa/Johannesburg':-26,'Africa/Nairobi':-1,'Africa/Lagos':6,'Africa/Casablanca':34,
+        'Asia/Dubai':25,'Asia/Riyadh':25,'Asia/Tehran':36,'Asia/Karachi':25,'Asia/Kolkata':23,
+        'Asia/Dhaka':24,'Asia/Bangkok':14,'Asia/Jakarta':-6,'Asia/Singapore':1,
+        'Asia/Kuala_Lumpur':3,'Asia/Hong_Kong':22,'Asia/Shanghai':31,'Asia/Taipei':25,
+        'Asia/Tokyo':36,'Asia/Seoul':37,'Asia/Manila':15,'Asia/Vladivostok':43,
+        'Australia/Perth':-32,'Australia/Darwin':-12,'Australia/Brisbane':-27,
+        'Australia/Adelaide':-35,'Australia/Sydney':-34,'Australia/Melbourne':-38
+      };
+      var fallback = { America:40,Europe:50,Asia:35,Africa:5,Pacific:-20,Australia:-30,Atlantic:45,Indian:-10 };
+      try {
+        var tz  = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var lat = TZ_LAT[tz] !== undefined ? TZ_LAT[tz] : (fallback[tz.split('/')[0]] || 45);
+        var now = new Date();
+        var doy = Math.round((now - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1;
+        var r   = Math.PI / 180;
+        var dec = -23.45 * Math.cos((doy + 10) * 360 / 365 * r);
+        var cosH = (Math.sin(-0.833 * r) - Math.sin(lat * r) * Math.sin(dec * r))
+                 / (Math.cos(lat * r) * Math.cos(dec * r));
+        var theme = 'light';
+        if (cosH >= 1) {
+          theme = 'dark'; // polar night — sun never rises
+        } else if (cosH > -1) {
+          var H = Math.acos(cosH) / r; // hour angle in degrees
+          var h = now.getHours() + now.getMinutes() / 60;
+          if (h < 12 - H / 15 || h >= 12 + H / 15) theme = 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="hp-header" id="hp-header">
+    <a href="#top" id="logo-link" aria-label="Yannu — home">
+      <span class="hp-logo">
+        <svg viewBox="0 0 50 47" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hp-logo-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--logo-grad-1)" />
+              <stop offset="100%" stop-color="var(--logo-grad-2)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 15.5 0 C 20.056 0 24.153 1.966 26.989 5.096 C 27.651 5.033 28.322 5 29 5 C 40.598 5 50 14.402 50 26 C 50 37.598 40.598 47 29 47 C 18.489 47 9.781 39.278 8.241 29.197 C 3.339 26.594 0 21.437 0 15.5 C 0 6.94 6.94 0 15.5 0 Z"
+            fill="url(#hp-logo-grad)" />
+        </svg>
+      </span>
+    </a>
+    <nav class="hp-nav">
+      <a class="hp-nav__link" href="#about">About</a>
+      <button class="hp-theme" id="theme-btn" aria-label="Switch to dark mode">
+        <!-- Moon icon (shown in light mode) -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+          <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hp-hero" id="top">
+    <!-- Illustration layers -->
+    <div class="hp-hero__scene" aria-hidden="true">
+      <!-- Gradient defs -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <linearGradient id="hill-back-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--hill-back-grad-1)" />
+            <stop offset="100%" stop-color="var(--hill-back-grad-2)" />
+          </linearGradient>
+          <linearGradient id="hill-front-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--hill-front-grad-1)" />
+            <stop offset="100%" stop-color="var(--hill-front-grad-2)" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <!-- Back hill -->
+      <div class="hp-hero__hill-back" id="hill-back">
+        <svg viewBox="0 0 1394 286" preserveAspectRatio="none">
+          <path d="M 171.713 268.209 C 114.454 289.882 54.251 293.894 0 268.209 L 171.713 268.209 C 236.216 243.794 296.982 196.967 341.29 144.937 C 424.93 46.721 475.402 3.125 551.351 0.118 C 627.3 -2.889 648.45 51.732 740.262 144.937 C 832.074 238.143 877.259 268.209 1000.315 268.209 C 1098.76 268.209 1197.078 186.028 1233.93 144.937 C 1281.999 120.884 1360.672 217.096 1394 268.209 L 1000.315 268.209 L 171.713 268.209 Z" />
+        </svg>
+      </div>
+
+      <!-- Sun -->
+      <div class="hp-hero__sun" id="hero-sun">
+        <div class="hp-hero__sun-glow"></div>
+      </div>
+
+      <!-- Front hill -->
+      <div class="hp-hero__hill-front" id="hill-front">
+        <svg viewBox="0 0 1334 100" preserveAspectRatio="none" style="transform:scaleX(-1)">
+          <path d="M 164.322 93.779 C 109.528 101.357 51.916 102.76 0 93.779 L 164.322 93.779 C 226.049 85.243 284.199 68.87 326.6 50.677 C 406.64 16.336 454.94 1.093 527.62 0.041 C 600.3 -1.01 620.54 18.088 708.4 50.677 C 796.26 83.267 839.5 93.779 957.26 93.779 C 1051.468 93.779 1145.553 65.045 1180.82 50.677 C 1226.82 42.267 1302.107 75.908 1334 93.779 L 957.26 93.779 L 164.322 93.779 Z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Text content -->
+    <div class="hp-hero__content">
+      <h1 class="hp-hero__title reveal">Hi, I&rsquo;m Yannu</h1>
+      <p class="hp-hero__bio reveal reveal-d1">Product designer at EA, Previously at Tencent &amp; Tag design
+Pursuing simplicity among the complexity. </p>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED WORK ===== -->
+  <section class="hp-section hp-section--featured">
+    <h2 class="hp-h2 reveal">Featured work</h2>
+    <div class="hp-projects">
+
+      <a class="hp-project reveal reveal-d1" href="design/EA-do/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/EA-do-0.png" alt="EA App Testing Tool" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">EA App Testing Tool</h3>
+          <p class="hp-project__desc">A web app testing tool that overlays on top of EA app, supporting 50+ game and DLC pre-release tests since launch.</p>
+        </div>
+      </a>
+
+      <a class="hp-project reveal reveal-d2" href="design/EA-mobile login/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/EA-ml-0.png" alt="EA Mobile Login" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">EA Mobile Login</h3>
+          <p class="hp-project__desc">Enabled players to log in to their EA accounts on EA mobile games.</p>
+        </div>
+      </a>
+
+      <a class="hp-project reveal reveal-d1" href="design/smartdevops/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/devops1.png" alt="DevOps Platform for Tencent" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">DevOps Platform for Tencent</h3>
+          <p class="hp-project__desc">A Cloud-based DevOps platform to boost 1000+ developers' efficiency.</p>
+        </div>
+      </a>
+
+      <a class="hp-project reveal reveal-d2" href="design/yunnan1/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/yunnan1-1.png" alt="Go-Yunnan Redesign" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">Go-Yunnan Redesign</h3>
+          <p class="hp-project__desc">An iOS mobile app, service and strategy for 2 million users.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== SIDE PROJECTS ===== -->
+  <section class="hp-section hp-section--side">
+    <h2 class="hp-h2 reveal">Side projects</h2>
+    <div class="hp-projects">
+
+      <a class="hp-project reveal reveal-d1" href="design/Google-2020/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/g-cover.png" alt="Ment" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">Ment</h3>
+          <p class="hp-project__desc">A mobile app to connect mentors and mentees.</p>
+        </div>
+      </a>
+
+      <a class="hp-project reveal reveal-d2" href="design/EA-checkout/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/EA-checkout.png" alt="Checkout Experience for EA" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">Checkout Experience for EA</h3>
+          <p class="hp-project__desc">A desktop checkout flow designed for players in Asia-Pacific and Latin America.</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== HOBBIES ===== -->
+  <section class="hp-section hp-section--hobby" id="about">
+    <h2 class="hp-h2 hp-h2--lg reveal">When I&rsquo;m not making products... </h2>
+    <div class="hp-hobbies">
+
+      <div class="hp-hobby reveal reveal-d1">
+        <div class="hp-hobby__thumb">
+          <img src="assets/hobby-climbing.png" alt="" />
+        </div>
+        <p class="hp-hobby__label">I&rsquo;m in the mountains. </p>
+      </div>
+
+      <div class="hp-hobby reveal reveal-d2">
+        <div class="hp-hobby__thumb">
+          <img src="assets/C4D-1.jpg" alt="" loading="lazy" />
+        </div>
+        <p class="hp-hobby__label">Waving a far realm.</p>
+      </div>
+
+      <div class="hp-hobby reveal reveal-d3">
+        <div class="hp-hobby__thumb">
+          <img src="assets/p-cover.png" alt="" loading="lazy" />
+        </div>
+        <p class="hp-hobby__label">Capturing beautiful moments.</p>
+      </div>
+
+      <div class="hp-hobby reveal reveal-d4">
+        <div class="hp-hobby__thumb">
+          <img src="assets/hobby-4.png" alt="" />
+        </div>
+        <p class="hp-hobby__label">And indulging in a voice.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="hp-footer">
+    <p class="hp-footer__copy">2026 &copy; Yannu Li 💚 with Claude</p>
+  </footer>
+
+  <script>
+    // ===== Theme toggle =====
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-btn');
+
+    const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/>
+      <line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/>
+      <line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/>
+      <line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/>
+    </svg>`;
+
+    const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z"/>
+    </svg>`;
+
+    // Sync button icon with auto-detected initial theme
+    if (html.getAttribute('data-theme') === 'dark') {
+      themeBtn.innerHTML = sunIcon;
+      themeBtn.setAttribute('aria-label', 'Switch to light mode');
+    }
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+      themeBtn.innerHTML = isDark ? moonIcon : sunIcon;
+    });
+
+    // ===== Sticky header =====
+    const header = document.getElementById('hp-header');
+    const onScroll = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 60);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // ===== Parallax =====
+    const heroSun   = document.getElementById('hero-sun');
+    const hillBack  = document.getElementById('hill-back');
+    const hillFront = document.getElementById('hill-front');
+
+    let raf = 0;
+    const onMouseMove = (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        // offset from center: -0.5 to +0.5
+        const dx = (e.clientX / window.innerWidth) - 0.5;
+        heroSun .style.setProperty('--parallax-x', `${dx * 60}px`);
+        hillBack.style.setProperty('--parallax-x', `${dx * 24}px`);
+        hillFront.style.setProperty('--parallax-x', `${dx * -12}px`);
+      });
+    };
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // ===== Scroll reveal =====
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-in');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => obs.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-in'));
+    }
+
+    // ===== Smooth scroll to top =====
+    document.getElementById('logo-link').addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

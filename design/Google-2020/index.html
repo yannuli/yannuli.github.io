@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ment — Yannu Li</title>
+
+  <style>
+    @font-face {
+      font-family: "Canela";
+      src: url("../../fonts/Canela-Light.ttf") format("truetype");
+      font-weight: 200 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Helvetica Neue";
+      src: url("../../fonts/Helvetica-NeueLT55Roman-light.woff2") format("woff2");
+      font-weight: 200 700; font-style: normal; font-display: swap;
+    }
+
+    :root {
+      --bg: #ffffff; --fg: #000000; --fg-muted: #555555; --border: #ececec;
+      --logo-grad-1: #e38956; --logo-grad-2: rgba(227, 95, 86, 0);
+      --header-pad-x: 8rem; --content-max: 52rem; --content-pad: 2rem;
+      --dur-fast: 0.25s; --dur-default: 0.45s;
+      --ease-default: cubic-bezier(0.02, 0.01, 0.47, 1);
+    }
+    [data-theme="dark"] {
+      --bg: #000000; --fg: #ffffff; --fg-muted: #c4c4c4; --border: #1c1c1c;
+      --logo-grad-1: #e3da56; --logo-grad-2: rgba(227, 138, 86, 0);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      transition: background var(--dur-default) var(--ease-default), color var(--dur-default) var(--ease-default);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .hp-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.75rem var(--header-pad-x); background: transparent;
+      transition: padding var(--dur-default) var(--ease-default);
+      border-bottom: 1px solid transparent; height: 120px;
+    }
+    .hp-header.is-scrolled { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+    .hp-logo { width: 50px; height: 47px; cursor: pointer; flex-shrink: 0; display: inline-block; }
+    .hp-logo svg { width: 100%; height: 100%; display: block; }
+    .hp-nav { display: flex; align-items: center; gap: 2rem; }
+    .hp-nav__link {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.25rem;
+      line-height: 1; color: var(--fg); letter-spacing: 0.01em;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-nav__link:hover { opacity: 0.7; }
+    .hp-theme {
+      background: none; border: none; width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--fg); cursor: pointer; padding: 0; border-radius: 50%;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-theme:hover { opacity: 0.7; }
+    .hp-theme svg { width: 20px; height: 20px; display: block; }
+
+    .cs-wrap {
+      max-width: var(--content-max); margin: 0 auto;
+      padding: 0 var(--content-pad); padding-top: 160px; padding-bottom: 8rem;
+    }
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-weight: 300; font-size: 0.9375rem; color: var(--fg-muted);
+      margin-bottom: 3.5rem; transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .cs-back:hover { opacity: 0.6; }
+    .cs-back svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .cs-title {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 3rem;
+      line-height: 1.1; color: var(--fg); margin: 0 0 0.75rem 0; max-width: 40rem;
+    }
+    .cs-subtitle {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;
+      font-size: 1.25rem; color: var(--fg-muted); margin: 0 0 3rem 0;
+    }
+    .cs-hero-img { width: 100%; margin-bottom: 4rem; }
+    .cs-hero-img img { width: 100%; height: auto; display: block; }
+
+    .cs-impact {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4.5rem;
+    }
+    .cs-impact__number {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 3.5rem;
+      line-height: 1; color: var(--fg); display: block; margin-bottom: 0.625rem;
+    }
+    .cs-impact__desc {
+      font-weight: 300; font-size: 1.0625rem; line-height: 1.55; color: var(--fg-muted); margin: 0;
+    }
+
+    .cs-h2 {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.75rem;
+      line-height: 1.2; color: var(--fg); margin: 4rem 0 1.5rem 0;
+    }
+    .cs-h2:first-child { margin-top: 0; }
+    .cs-h3 {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.375rem;
+      line-height: 1.3; color: var(--fg); margin: 2.5rem 0 0.75rem;
+    }
+
+    .cs-meta {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem;
+    }
+    .cs-meta__label {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;
+      font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--fg-muted); margin: 0 0 0.5rem 0;
+    }
+    .cs-meta__value {
+      font-weight: 300; font-size: 1rem; line-height: 1.5; color: var(--fg); margin: 0;
+    }
+
+    .cs-body { margin-bottom: 1rem; }
+    .cs-body p {
+      font-weight: 300; font-size: 1.0625rem; line-height: 1.65; color: var(--fg); margin: 0 0 1.25rem 0;
+    }
+    .cs-body p:last-child { margin-bottom: 0; }
+    .cs-body strong { font-weight: 500; }
+
+    .cs-image { width: 100%; margin: 2rem 0; }
+    .cs-image img { width: 100%; height: auto; display: block; }
+    .cs-caption { font-size: 0.875rem; color: var(--fg-muted); margin-top: 0.5rem; display: block; }
+
+    .cs-video { width: 100%; margin: 2rem 0; }
+    .cs-video video { width: 100%; height: auto; display: block; }
+
+    .hp-footer {
+      max-width: var(--content-max); margin: 4rem auto 0; padding: 2rem var(--content-pad) 3rem;
+    }
+    .hp-footer__copy { font-weight: 300; font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
+
+    .reveal {
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.9s var(--ease-default), transform 0.9s var(--ease-default);
+    }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+    @media (max-width: 960px) {
+      :root { --header-pad-x: 3rem; }
+      .cs-title { font-size: 2.25rem; }
+      .cs-meta { grid-template-columns: 1fr 1fr; }
+      .cs-impact { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      :root { --header-pad-x: 1.25rem; --content-pad: 1.25rem; }
+      .hp-header { padding: 1rem var(--header-pad-x); height: auto; }
+      .hp-logo { width: 38px; height: 36px; }
+      .hp-nav { gap: 1rem; }
+      .cs-wrap { padding-top: 120px; }
+      .cs-title { font-size: 1.875rem; }
+      .cs-meta { grid-template-columns: 1fr; }
+      .cs-impact { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var TZ_LAT = {
+        'Pacific/Honolulu':21,'Pacific/Auckland':-37,'America/Anchorage':61,'America/Los_Angeles':34,
+        'America/Denver':40,'America/Chicago':42,'America/New_York':41,'America/Toronto':44,
+        'America/Sao_Paulo':-23,'America/Argentina/Buenos_Aires':-34,'Atlantic/Reykjavik':64,
+        'Europe/London':52,'Europe/Paris':49,'Europe/Berlin':52,'Europe/Madrid':40,'Europe/Rome':42,
+        'Europe/Stockholm':59,'Europe/Moscow':56,'Europe/Istanbul':41,'Africa/Cairo':30,
+        'Africa/Johannesburg':-26,'Asia/Dubai':25,'Asia/Kolkata':23,'Asia/Bangkok':14,
+        'Asia/Singapore':1,'Asia/Shanghai':31,'Asia/Tokyo':36,'Asia/Seoul':37,
+        'Australia/Sydney':-34,'Australia/Melbourne':-38
+      };
+      var fallback = { America:40,Europe:50,Asia:35,Africa:5,Pacific:-20,Australia:-30,Atlantic:45,Indian:-10 };
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var lat = TZ_LAT[tz] !== undefined ? TZ_LAT[tz] : (fallback[tz.split('/')[0]] || 45);
+        var now = new Date();
+        var doy = Math.round((now - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1;
+        var r = Math.PI / 180;
+        var dec = -23.45 * Math.cos((doy + 10) * 360 / 365 * r);
+        var cosH = (Math.sin(-0.833 * r) - Math.sin(lat * r) * Math.sin(dec * r)) / (Math.cos(lat * r) * Math.cos(dec * r));
+        var theme = 'light';
+        if (cosH >= 1) { theme = 'dark'; } else if (cosH > -1) {
+          var H = Math.acos(cosH) / r;
+          var h = now.getHours() + now.getMinutes() / 60;
+          if (h < 12 - H / 15 || h >= 12 + H / 15) theme = 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="hp-header" id="hp-header">
+    <a href="../../index.html" aria-label="Yannu — home">
+      <span class="hp-logo">
+        <svg viewBox="0 0 50 47" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hp-logo-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--logo-grad-1)" />
+              <stop offset="100%" stop-color="var(--logo-grad-2)" />
+            </linearGradient>
+          </defs>
+          <path d="M 15.5 0 C 20.056 0 24.153 1.966 26.989 5.096 C 27.651 5.033 28.322 5 29 5 C 40.598 5 50 14.402 50 26 C 50 37.598 40.598 47 29 47 C 18.489 47 9.781 39.278 8.241 29.197 C 3.339 26.594 0 21.437 0 15.5 C 0 6.94 6.94 0 15.5 0 Z" fill="url(#hp-logo-grad)" />
+        </svg>
+      </span>
+    </a>
+    <nav class="hp-nav">
+      <a class="hp-nav__link" href="../../index.html#about">About</a>
+      <button class="hp-theme" id="theme-btn" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+          <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="cs-wrap">
+
+    <a class="cs-back reveal" href="../../index.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M10 3 L5 8 L10 13" />
+      </svg>
+      All work
+    </a>
+
+    <h1 class="cs-title reveal reveal-d1">Finding a mentor / mentee</h1>
+    <p class="cs-subtitle reveal reveal-d2">How might we help mentors and mentees connect?</p>
+
+    <div class="cs-hero-img reveal">
+      <img src="../../assets/g-cover.png" alt="Ment app — mentor and mentee connection" />
+    </div>
+
+    <div class="cs-impact reveal">
+      <div class="cs-impact__stat">
+        <span class="cs-impact__number">5</span>
+        <p class="cs-impact__desc">Research participants — mentors, mentees, and a program staff member</p>
+      </div>
+      <div class="cs-impact__stat">
+        <span class="cs-impact__number">3</span>
+        <p class="cs-impact__desc">Design concepts evaluated and tested with interviewees</p>
+      </div>
+      <div class="cs-impact__stat">
+        <span class="cs-impact__number">5</span>
+        <p class="cs-impact__desc">Core features designed in the final Ment app</p>
+      </div>
+    </div>
+
+    <div class="cs-meta reveal">
+      <div>
+        <p class="cs-meta__label">Role</p>
+        <p class="cs-meta__value">UX / UI Designer</p>
+      </div>
+      <div>
+        <p class="cs-meta__label">Duration</p>
+        <p class="cs-meta__value">Jan 2020 – Apr 2020</p>
+      </div>
+      <div>
+        <p class="cs-meta__label">Tools</p>
+        <p class="cs-meta__value">Sketch, Figma</p>
+      </div>
+    </div>
+
+    <h2 class="cs-h2 reveal">Timeline</h2>
+    <div class="cs-image reveal reveal-d1">
+      <img src="../../../Desktop/old-website/images/design/0.png" alt="Project timeline" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Planning and scoping</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>Before diving into actions, I took the time to examine my knowledge of this domain to draft a research plan.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/1.png" alt="Research plan" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p>Due to time constraints, I decided to only recruit interviewees from my personal connections. Although the stakeholders include student mentorship program staff, new student orientation program officers, I decided to focus only on the experiences of mentors and mentees for this project.</p>
+    </div>
+
+    <h2 class="cs-h2 reveal">Understanding the problem</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>I conducted secondary research and interviewed 4 students who both acted as mentor and mentee, and one staff member currently in charge of one of the Georgia Tech mentorship programs.</p>
+      <p>I used personas and journey maps to synthesize the research findings in the affinity map, identifying key pain points and corresponding design opportunities.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/2.png" alt="Affinity map and personas" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/3.png" alt="Journey map" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/4.png" alt="Pain points and opportunities" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/5.png" alt="Research synthesis" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p>I distilled the key insights from the research as follows:</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/6.png" alt="Key insights" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p>After the research phase, I realized that connecting mentors and mentees is much more important to the experience for both parties. So I focused on the connecting part first in my following design processes, then tended to the mentor–mentee transition experience.</p>
+    </div>
+
+    <h2 class="cs-h2 reveal">Ideating</h2>
+
+    <h3 class="cs-h3 reveal">What platform</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>According to the journey map, major ways schools can reach experienced students are through email. So it would be most convenient to take actions directly from there. However, the frustrations mainly appear during the mentorship, and the experience often happens on the go. I created the diagram to compare different platforms and tradeoffs. Finally, I decided to move on with a mobile app.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/7.png" alt="Platform comparison" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p>I came up with 3 concepts as potential solutions, went back to my interviewees for their thoughts, then evaluated them with an impact and effort matrix to decide on which direction to move forward with.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/8.png" alt="Concept 1" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/9.png" alt="Concept 2" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/10.png" alt="Concept 3" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/11.png" alt="Impact and effort matrix" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Designing</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>I went back to my personas and journey maps to distill tasks users need to achieve within this product, and created storyboards to help visualize the use cases.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/12.png" alt="Storyboards" />
+    </div>
+
+    <h3 class="cs-h3 reveal">Crafting navigation</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>From the user tasks I distilled, I learned there would be 5 major features in the app. I designed many alternatives to find the best navigation structure.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/13.png" alt="Navigation alternatives" />
+    </div>
+
+    <h3 class="cs-h3 reveal">Crafting browsing</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>I went back to research and summarized mentors' and mentees' needs into categories, and found they also have other dimensions to browse — major, time, and role (as mentor or mentee). When trying to solve the flexibility pain point, I got trapped in another potential pain point: find the right help to get or give the right help.</p>
+      <p>I went back to my research and the prompt to scope down and reduce the types to present. As the prompt was focused on helping new students adjust to campus life, I decided to cut out "fun", "interest-related", and "just hang out" categories for now and settled on a smaller group of information.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/14.png" alt="Browsing categories" />
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/15.png" alt="Browsing iterations" />
+    </div>
+
+    <h3 class="cs-h3 reveal">Wireframes</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>I made the following key design decisions and created the wireframe flow.</p>
+      <p><strong>Create a meetup right after signing up</strong>: to initiate the project and ensure the active participation of users, I decided to let users create a meetup or choose to attend one right after entering the platform.</p>
+      <p><strong>Break create meetup flow into steps to guide users</strong>: giving agency to UGC while controlling quality is difficult. As any individual can create a meetup as either mentor or mentee, I realized that when tackling the flexibility pain point, a mess is very possible if users can create meetups of all kinds. So I decided to use steps with specific instructions on how to create a meetup, reducing the noise on the platform.</p>
+      <p><strong>Why recommendations in create meetup flow</strong>: since the platform contains meetups for both mentors and mentees to sign up for, it is highly possible that when creating a meetup as a mentor, there would already be a meetup from the mentee's side requesting that help. Recommendations reduce the cluster.</p>
+      <p><strong>Why discussion for meetups</strong>: my research shows that people are unsure about what to talk about before a mentor/mentee meetup. A discussion thread before the meetup helps reduce uncertainty and helps both parties prepare.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/16.png" alt="Wireframe flow" />
+    </div>
+
+    <h3 class="cs-h3 reveal">Cognitive walkthrough and user feedback</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>With the whole wireframe flow, I recruited an HCI expert to walk through the wireframes and identify potential issues. I also went back to my interviewees to test the mid-fi prototype. From their feedback, I developed the following iterations.</p>
+      <p><strong>Iteration 1</strong>: Letting users skip the create meetup flow when signing up.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/17-1.png" alt="Iteration 1 — skip option" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p><strong>Iteration 2</strong>: Adding a search function.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/17-2.png" alt="Iteration 2 — search" />
+    </div>
+    <div class="cs-body reveal reveal-d1">
+      <p><strong>Iteration 3</strong>: Making more sense in the create meetups flow with clearer copy writing and illustrations.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/17-3.png" alt="Iteration 3 — copy and illustrations" />
+    </div>
+
+    <h3 class="cs-h3 reveal">Hi-fidelity prototype</h3>
+    <div class="cs-body reveal reveal-d1">
+      <p>Due to time constraints, I did not spend a lot of time exploring the visual style and systems. As this experience is designed for my school, I used Material theming tools to develop a hi-fi prototype that aligns with Georgia Tech's branding system.</p>
+      <p>If given more time, I would consider the scalability of the experience (if it is possible to scale the solution to other US campuses), and develop a UI system with better scalability.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/17.png" alt="Hi-fidelity screens" />
+    </div>
+    <div class="cs-video reveal">
+      <video autoplay loop muted playsinline>
+        <source src="../../../Desktop/old-website/assets/google2020.mov" type="video/mp4" />
+      </video>
+      <span class="cs-caption">Interactive prototype built in Figma</span>
+    </div>
+
+    <h2 class="cs-h2 reveal">Measure success</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>Although this product might not be launched, I still thought about ways to measure its success. Using Google's HEART model, I drafted a success measuring plan relevant to improving this experience.</p>
+    </div>
+    <div class="cs-image reveal">
+      <img src="../../../Desktop/old-website/images/design/18.png" alt="HEART model success metrics" />
+    </div>
+
+    <h2 class="cs-h2 reveal">Next steps</h2>
+    <div class="cs-body reveal reveal-d1">
+      <p>Due to time and effort constraints, I based my solutions on limited and biased research, and did not have enough time to thoroughly examine and explore design alternatives. Given more time, I would develop more structured generative and evaluative research plans for a better informed design solution.</p>
+      <p><strong>More information on what's important</strong>: I used assumptions to prioritize certain categories of meetups in the create flow, time filters, and information to show on meetup cards — all of which need further validation with testing or more research.</p>
+      <p><strong>Incorporate the design into the whole service picture</strong>: In this solution, I focused only on the digital product, considering less about the broader picture — how to seed initial users and meetups, how to encourage mentors to commit more time to helping others.</p>
+      <p><strong>Other stakeholders</strong>: As I scoped down to student mentors and mentees, I did not touch much on the school as a major stakeholder that initiated this project. Given time, I would do more research on how school officials manage and support the experience and make corresponding iterations.</p>
+    </div>
+
+  </main>
+
+  <footer class="hp-footer">
+    <p class="hp-footer__copy">2026 &copy; Yannu Li 💚 with Claude</p>
+  </footer>
+
+  <script>
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-btn');
+
+    const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/>
+      <line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/>
+      <line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/>
+      <line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/>
+    </svg>`;
+
+    const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z"/>
+    </svg>`;
+
+    if (html.getAttribute('data-theme') === 'dark') {
+      themeBtn.innerHTML = sunIcon;
+      themeBtn.setAttribute('aria-label', 'Switch to light mode');
+    }
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+      themeBtn.innerHTML = isDark ? moonIcon : sunIcon;
+    });
+
+    const header = document.getElementById('hp-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => obs.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-in'));
+    }
+  </script>
+</body>
+</html>
