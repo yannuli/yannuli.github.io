@@ -150,6 +150,7 @@
       position: relative;
       width: 100%;
       height: 600px;
+      min-height: calc(175px + 25vw); /* ensures SVGs (1440×359 ≈ 25vw tall) never clip at wide viewports */
       padding-top: 175px;
       overflow: hidden;
     }
@@ -185,6 +186,7 @@
       margin: 0;
       max-width: 43.25rem;
       white-space: pre-line;
+  
     }
 
     .hp-hero__scene {
@@ -398,14 +400,11 @@
     }
     @media (max-width: 960px) {
       :root { --content-pad: var(--content-pad-md); --header-pad-x: 3rem; }
-      .hp-hero { height: auto; padding-top: 140px; padding-bottom: 6rem; }
+      .hp-hero { height: auto; min-height: calc(140px + 25vw); padding-top: 140px; padding-bottom: 6rem; }
       .hp-hero__content { flex-direction: column; gap: 1rem; padding-top: 1rem; }
       .hp-hero__title { white-space: normal; margin-right: 0; font-size: 2.5rem; }
       .hp-hero__bio { font-size: 1.125rem; line-height: 1.6; }
-      .hp-hero__scene { inset: 140px 0 0 0; height: 340px; }
-      .hp-hero__sun { width: 160px; height: 160px; top: 200px; }
-      .hp-hero__hill-back { top: 220px; height: 200px; }
-      .hp-hero__hill-front { top: 320px; height: 120px; }
+      .hp-hero__scene { inset: 140px 0 0 0; }
       .hp-projects { grid-template-columns: 1fr; row-gap: 4rem; }
       .hp-hobbies { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
       .hp-h2 { font-size: 1.875rem; margin-bottom: 2rem; }
@@ -419,13 +418,10 @@
       .hp-logo { width: 38px; height: 36px; }
       .hp-nav { gap: 1rem; }
       .hp-nav__link { font-size: 1.125rem; }
-      .hp-hero { padding-top: 110px; padding-bottom: 4rem; }
+      .hp-hero { padding-top: 110px; padding-bottom: 4rem; min-height: calc(110px + 25vw); }
       .hp-hero__title { font-size: 2.125rem; }
       .hp-hero__bio { font-size: 1rem; line-height: 1.55; }
-      .hp-hero__scene { inset: 110px 0 0 0; height: 260px; }
-      .hp-hero__sun { width: 120px; height: 120px; top: 130px; }
-      .hp-hero__hill-back { top: 150px; height: 150px; left: 0; width: 100%; }
-      .hp-hero__hill-front { top: 230px; height: 80px; }
+      .hp-hero__scene { inset: 110px 0 0 0; }
       .hp-h2 { font-size: 1.625rem; margin-bottom: 1.5rem; }
       .hp-h2--lg { font-size: 1.875rem; }
       .hp-section { margin-top: 3.5rem; }
@@ -562,16 +558,6 @@ Pursuing simplicity among the complexity. </p>
     <h2 class="hp-h2 reveal">Featured work</h2>
     <div class="hp-projects">
 
-      <a class="hp-project reveal reveal-d1" href="design/EA-do/index.html">
-        <div class="hp-project__thumb">
-          <img src="assets/EA-do-0.png" alt="EA App Testing Tool" loading="lazy" />
-        </div>
-        <div class="hp-project__meta">
-          <h3 class="hp-project__title">EA App Testing Tool</h3>
-          <p class="hp-project__desc">A web app testing tool that overlays on top of EA app, supporting 50+ game and DLC pre-release tests since launch.</p>
-        </div>
-      </a>
-
       <a class="hp-project reveal reveal-d2" href="design/EA-mobile login/index.html">
         <div class="hp-project__thumb">
           <img src="assets/EA-ml-0.png" alt="EA Mobile Login" loading="lazy" />
@@ -579,6 +565,16 @@ Pursuing simplicity among the complexity. </p>
         <div class="hp-project__meta">
           <h3 class="hp-project__title">EA Mobile Login</h3>
           <p class="hp-project__desc">Enabled players to log in to their EA accounts on EA mobile games.</p>
+        </div>
+      </a>
+
+      <a class="hp-project reveal reveal-d1" href="design/EA-do/index.html">
+        <div class="hp-project__thumb">
+          <img src="assets/EA-do-0.png" alt="EA App Testing Tool" loading="lazy" />
+        </div>
+        <div class="hp-project__meta">
+          <h3 class="hp-project__title">EA App Testing Tool</h3>
+          <p class="hp-project__desc">A web app testing tool that overlays on top of EA app, supporting 50+ game and DLC pre-release tests since launch.</p>
         </div>
       </a>
 

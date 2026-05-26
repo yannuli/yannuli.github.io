@@ -253,7 +253,6 @@
     .cs-contact {
       margin-top: 5rem;
       padding-top: 2.5rem;
-      border-top: 1px solid var(--border);
     }
     .cs-contact p {
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -269,6 +268,46 @@
       transition: opacity var(--dur-fast) var(--ease-default);
     }
     .cs-contact a:hover { opacity: 0.6; }
+    .pw-gate {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+    }
+    .pw-gate__input {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 0.9rem;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--fg);
+      outline: none;
+      transition: border-color var(--dur-fast) var(--ease-default);
+      width: 180px;
+    }
+    .pw-gate__input:focus { border-color: var(--fg-muted); }
+    .pw-gate__btn {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 400;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--fg);
+      border-radius: 4px;
+      background: transparent;
+      color: var(--fg);
+      cursor: pointer;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .pw-gate__btn:hover { opacity: 0.6; }
+    .pw-gate__error {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 0.85rem;
+      color: #c0392b;
+      display: none;
+    }
+    .pw-gate__error.is-visible { display: inline; }
 
     /* === FOOTER === */
     .hp-footer {
@@ -401,10 +440,10 @@
       All work
     </a>
 
-    <h1 class="cs-title reveal reveal-d1">Making testing accessible across the team</h1>
+    <h1 class="cs-title reveal reveal-d1">Making EA app testing accessible across internal teams</h1>
 
     <div class="cs-hero-img reveal reveal-d2">
-      <img src="../../assets/EA-do-0.png" alt="EA App Testing Tool interface" />
+      <img src="../../assets/EA-do-1.png" alt="EA App Testing Tool interface" />
     </div>
 
     <div class="cs-impact reveal">
@@ -442,7 +481,12 @@
     </div>
 
     <div class="cs-contact reveal">
-      <p>Want to go deeper? Email <a href="mailto:yannuli.design@gmail.com">yannuli.design@gmail.com</a> for a full project walkthrough.</p>
+      <p>Want to go deeper?</p>
+      <div class="pw-gate">
+        <input class="pw-gate__input" id="pw-input" type="password" placeholder="Enter password" aria-label="Password">
+        <button class="pw-gate__btn" id="pw-btn">View walkthrough</button>
+        <span class="pw-gate__error" id="pw-error" aria-live="polite"></span>
+      </div>
     </div>
 
   </main>
@@ -506,6 +550,26 @@
     } else {
       revealEls.forEach(el => el.classList.add('is-in'));
     }
+
+    // ===== Password gate =====
+    const pwInput = document.getElementById('pw-input');
+    const pwBtn = document.getElementById('pw-btn');
+    const pwError = document.getElementById('pw-error');
+
+    function checkPassword() {
+      if (pwInput.value === 'open sesame') {
+        window.open('https://www.figma.com/proto/zr7Mzm3qjN5y1voJ7LcH8n/EA-app-testing-tool-Yannu-2026?node-id=1-15&p=f&viewport=40%2C317%2C0.11&t=FNR63M5VPPL4UcOE-1&scaling=contain&content-scaling=fixed&page-id=0%3A1', '_blank');
+        pwError.classList.remove('is-visible');
+      } else {
+        pwError.textContent = 'Incorrect password.';
+        pwError.classList.add('is-visible');
+        pwInput.value = '';
+        pwInput.focus();
+      }
+    }
+
+    pwBtn.addEventListener('click', checkPassword);
+    pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
   </script>
 </body>
 </html>
