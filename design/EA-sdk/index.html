@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EA SDK Testing Tool — Yannu Li</title>
+
+  <style>
+    @font-face {
+      font-family: "Canela";
+      src: url("../../fonts/Canela-Light.ttf") format("truetype");
+      font-weight: 200 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Helvetica Neue";
+      src: url("../../fonts/Helvetica-NeueLT55Roman-light.woff2") format("woff2");
+      font-weight: 200 700; font-style: normal; font-display: swap;
+    }
+
+    :root {
+      --bg: #ffffff; --fg: #000000; --fg-muted: #555555; --border: #ececec;
+      --logo-grad-1: #e38956; --logo-grad-2: rgba(227, 95, 86, 0);
+      --header-pad-x: 8rem; --content-max: 52rem; --content-pad: 2rem;
+      --dur-fast: 0.25s; --dur-default: 0.45s;
+      --ease-default: cubic-bezier(0.02, 0.01, 0.47, 1);
+    }
+    [data-theme="dark"] {
+      --bg: #000000; --fg: #ffffff; --fg-muted: #c4c4c4; --border: #1c1c1c;
+      --logo-grad-1: #e3da56; --logo-grad-2: rgba(227, 138, 86, 0);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      transition: background var(--dur-default) var(--ease-default), color var(--dur-default) var(--ease-default);
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .hp-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.75rem var(--header-pad-x); background: transparent;
+      transition: padding var(--dur-default) var(--ease-default);
+      border-bottom: 1px solid transparent; height: 120px;
+    }
+    .hp-header.is-scrolled { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+    .hp-logo { width: 50px; height: 47px; cursor: pointer; flex-shrink: 0; display: inline-block; }
+    .hp-logo svg { width: 100%; height: 100%; display: block; }
+    .hp-nav { display: flex; align-items: center; gap: 2rem; }
+    .hp-nav__link {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.25rem;
+      line-height: 1; color: var(--fg); letter-spacing: 0.01em;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-nav__link:hover { opacity: 0.7; }
+    .hp-theme {
+      background: none; border: none; width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--fg); cursor: pointer; padding: 0; border-radius: 50%;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .hp-theme:hover { opacity: 0.7; }
+    .hp-theme svg { width: 20px; height: 20px; display: block; }
+
+    .cs-wrap {
+      max-width: var(--content-max); margin: 0 auto;
+      padding: 0 var(--content-pad); padding-top: 160px; padding-bottom: 8rem;
+    }
+    .cs-back {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300; font-size: 0.9375rem; color: var(--fg-muted);
+      margin-bottom: 3.5rem; transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .cs-back:hover { opacity: 0.6; }
+    .cs-back svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .cs-title {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 3rem;
+      line-height: 1.1; color: var(--fg); margin: 0 0 3rem 0; max-width: 40rem;
+    }
+
+    .cs-hero-img { width: 100%; margin-bottom: 4rem; }
+    .cs-hero-img img { width: 100%; height: auto; display: block; }
+
+    .cs-h2 {
+      font-family: "Canela", Georgia, serif; font-weight: 300; font-size: 1.75rem;
+      line-height: 1.2; color: var(--fg); margin: 0 0 1.5rem 0;
+    }
+
+    .cs-role {
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; margin-bottom: 4rem;
+    }
+    .cs-role__main p, .cs-role__meta p {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-weight: 300; font-size: 1.0625rem; line-height: 1.65;
+      color: var(--fg); margin: 0 0 0.75rem 0;
+    }
+    .cs-role__main p:last-child, .cs-role__meta p:last-child { margin-bottom: 0; }
+    .cs-role__meta { min-width: 14rem; }
+    .cs-role__meta p { color: var(--fg-muted); font-size: 0.9375rem; }
+
+    .cs-contact { margin-top: 5rem; padding-top: 2.5rem; }
+    .cs-contact p { font-weight: 300; font-size: 1rem; color: var(--fg-muted); margin: 0; }
+    .cs-contact a {
+      color: var(--fg); border-bottom: 1px solid currentColor; padding-bottom: 1px;
+      transition: opacity var(--dur-fast) var(--ease-default);
+    }
+    .cs-contact a:hover { opacity: 0.6; }
+
+    .hp-footer {
+      max-width: var(--content-max); margin: 4rem auto 0; padding: 2rem var(--content-pad) 3rem;
+    }
+    .hp-footer__copy { font-weight: 300; font-size: 0.875rem; color: var(--fg-muted); margin: 0; }
+
+    .reveal {
+      opacity: 0; transform: translateY(1.5rem);
+      transition: opacity 0.9s var(--ease-default), transform 0.9s var(--ease-default);
+    }
+    .reveal.is-in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.08s; }
+    .reveal-d2 { transition-delay: 0.16s; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+    @media (max-width: 960px) {
+      :root { --header-pad-x: 3rem; }
+      .cs-title { font-size: 2.25rem; }
+      .cs-role { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      :root { --header-pad-x: 1.25rem; --content-pad: 1.25rem; }
+      .hp-header { padding: 1rem var(--header-pad-x); height: auto; }
+      .hp-logo { width: 38px; height: 36px; }
+      .hp-nav { gap: 1rem; }
+      .hp-nav__link { font-size: 1.125rem; }
+      .cs-wrap { padding-top: 120px; }
+      .cs-title { font-size: 1.875rem; }
+      .cs-h2 { font-size: 1.5rem; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var TZ_LAT = {
+        'Pacific/Honolulu':21,'Pacific/Tahiti':-18,'Pacific/Auckland':-37,'Pacific/Fiji':-18,'Pacific/Guam':14,
+        'America/Anchorage':61,'America/Los_Angeles':34,'America/Vancouver':49,'America/Denver':40,
+        'America/Phoenix':33,'America/Chicago':42,'America/Mexico_City':19,'America/New_York':41,
+        'America/Toronto':44,'America/Halifax':45,'America/Caracas':11,'America/Bogota':5,
+        'America/Lima':-12,'America/Sao_Paulo':-23,'America/Santiago':-33,
+        'America/Argentina/Buenos_Aires':-34,'America/Montevideo':-35,
+        'Atlantic/Reykjavik':64,'Atlantic/Azores':38,'Europe/London':52,'Europe/Dublin':53,
+        'Europe/Lisbon':38,'Europe/Madrid':40,'Europe/Paris':49,'Europe/Amsterdam':52,
+        'Europe/Berlin':52,'Europe/Rome':42,'Europe/Athens':38,'Europe/Warsaw':52,
+        'Europe/Stockholm':59,'Europe/Oslo':60,'Europe/Helsinki':60,'Europe/Tallinn':59,
+        'Europe/Moscow':56,'Europe/Kiev':50,'Europe/Bucharest':44,'Europe/Istanbul':41,
+        'Africa/Cairo':30,'Africa/Johannesburg':-26,'Africa/Nairobi':-1,'Africa/Lagos':6,'Africa/Casablanca':34,
+        'Asia/Dubai':25,'Asia/Riyadh':25,'Asia/Tehran':36,'Asia/Karachi':25,'Asia/Kolkata':23,
+        'Asia/Dhaka':24,'Asia/Bangkok':14,'Asia/Jakarta':-6,'Asia/Singapore':1,
+        'Asia/Kuala_Lumpur':3,'Asia/Hong_Kong':22,'Asia/Shanghai':31,'Asia/Taipei':25,
+        'Asia/Tokyo':36,'Asia/Seoul':37,'Asia/Manila':15,'Asia/Vladivostok':43,
+        'Australia/Perth':-32,'Australia/Darwin':-12,'Australia/Brisbane':-27,
+        'Australia/Adelaide':-35,'Australia/Sydney':-34,'Australia/Melbourne':-38
+      };
+      var fallback = { America:40,Europe:50,Asia:35,Africa:5,Pacific:-20,Australia:-30,Atlantic:45,Indian:-10 };
+      try {
+        var tz  = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var lat = TZ_LAT[tz] !== undefined ? TZ_LAT[tz] : (fallback[tz.split('/')[0]] || 45);
+        var now = new Date();
+        var doy = Math.round((now - new Date(now.getFullYear(), 0, 1)) / 86400000) + 1;
+        var r   = Math.PI / 180;
+        var dec = -23.45 * Math.cos((doy + 10) * 360 / 365 * r);
+        var cosH = (Math.sin(-0.833 * r) - Math.sin(lat * r) * Math.sin(dec * r))
+                 / (Math.cos(lat * r) * Math.cos(dec * r));
+        var theme = 'light';
+        if (cosH >= 1) { theme = 'dark'; } else if (cosH > -1) {
+          var H = Math.acos(cosH) / r;
+          var h = now.getHours() + now.getMinutes() / 60;
+          if (h < 12 - H / 15 || h >= 12 + H / 15) theme = 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="hp-header" id="hp-header">
+    <a href="../../index.html" id="logo-link" aria-label="Yannu — home">
+      <span class="hp-logo">
+        <svg viewBox="0 0 50 47" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hp-logo-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="var(--logo-grad-1)" />
+              <stop offset="100%" stop-color="var(--logo-grad-2)" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M 15.5 0 C 20.056 0 24.153 1.966 26.989 5.096 C 27.651 5.033 28.322 5 29 5 C 40.598 5 50 14.402 50 26 C 50 37.598 40.598 47 29 47 C 18.489 47 9.781 39.278 8.241 29.197 C 3.339 26.594 0 21.437 0 15.5 C 0 6.94 6.94 0 15.5 0 Z"
+            fill="url(#hp-logo-grad)" />
+        </svg>
+      </span>
+    </a>
+    <nav class="hp-nav">
+      <a class="hp-nav__link" href="../../index.html#about">About</a>
+      <button class="hp-theme" id="theme-btn" aria-label="Switch to dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+          <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="cs-wrap">
+
+    <a class="cs-back reveal" href="../../index.html">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M10 3 L5 8 L10 13" />
+      </svg>
+      All work
+    </a>
+
+    <h1 class="cs-title reveal reveal-d1">EA SDK Testing Tool Redesign</h1>
+
+    <div class="cs-hero-img reveal reveal-d2">
+      <img src="../../assets/EA-sdk-0.png" alt="EA SDK Testing Tool interface" />
+    </div>
+
+    <h2 class="cs-h2 reveal">My role</h2>
+    <div class="cs-role reveal reveal-d1">
+      <div class="cs-role__main">
+        <p>Redesigned a desktop app to help devs test game SDKs. The new UI is easy to learn, allowing more devs to test without being bottlenecked by experience.</p>
+      </div>
+      <div class="cs-role__meta">
+        <p>Team: 1 PM, ~5 engineers, 1 QV, 1 content designer</p>
+      </div>
+    </div>
+
+    <div class="cs-contact reveal">
+      <p>Want to go deeper? Email <a href="mailto:yannuli.design@gmail.com">yannuli.design@gmail.com</a> for a full project walkthrough.</p>
+    </div>
+
+  </main>
+
+  <footer class="hp-footer">
+    <p class="hp-footer__copy">2026 &copy; Yannu Li 💚 with Claude</p>
+  </footer>
+
+  <script>
+    const html = document.documentElement;
+    const themeBtn = document.getElementById('theme-btn');
+
+    const sunIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <circle cx="12" cy="12" r="4"/>
+      <line x1="12" y1="2" x2="12" y2="5"/>
+      <line x1="12" y1="19" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="5" y2="12"/>
+      <line x1="19" y1="12" x2="22" y2="12"/>
+      <line x1="4.5" y1="4.5" x2="6.5" y2="6.5"/>
+      <line x1="17.5" y1="17.5" x2="19.5" y2="19.5"/>
+      <line x1="4.5" y1="19.5" x2="6.5" y2="17.5"/>
+      <line x1="17.5" y1="6.5" x2="19.5" y2="4.5"/>
+    </svg>`;
+
+    const moonIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="square">
+      <path d="M20 14.5 A8 8 0 1 1 9.5 4 A6 6 0 0 0 20 14.5 Z"/>
+    </svg>`;
+
+    if (html.getAttribute('data-theme') === 'dark') {
+      themeBtn.innerHTML = sunIcon;
+      themeBtn.setAttribute('aria-label', 'Switch to light mode');
+    }
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+      themeBtn.innerHTML = isDark ? moonIcon : sunIcon;
+    });
+
+    const header = document.getElementById('hp-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      revealEls.forEach(el => obs.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('is-in'));
+    }
+  </script>
+</body>
+</html>
